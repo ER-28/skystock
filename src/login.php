@@ -7,24 +7,35 @@ session_start();
 <html lang="en">
 
     <?php
-    render_head('Connexion')
+      render_head('Connexion')
     ?>
 
     <body>
-      <div class="flex flex-row justify-center items-center h-screen w-full bg-gray-800">
-        <div class="container max-w-xl bg-gray-500 p-8 text-gray-200">
+      <div class="flex flex-row justify-center items-center h-screen w-full bg-slate-950">
+        <div class="container max-w-xl bg-slate-800 p-8 text-gray-200 rounded border border-blue-300">
           <form action="forms/login.php" method="post" class="w-full flex flex-col gap-5">
-            <p class="font-bold">Login</p>
+            <p class="font-bold text-xl">Login</p>
             <div class="mb-4">
               <label for="username" class="block text-sm font-bold mb-2">Username</label>
-              <input type="text" name="username" id="username" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+              <input
+                type="text" name="username" id="username"
+                class="shadow appearance-none border border-blue-300 rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline bg-slate-800"
+              >
             </div>
             <div class="mb-6">
               <label for="password" class="block text-sm font-bold mb-2">Password</label>
-              <input type="password" name="password" id="password" class="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
+              <input
+                type="password" name="password" id="password"
+                class="shadow appearance-none border border-blue-300 rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline bg-slate-800"
+              >
             </div>
             <div class="flex items-center justify-between">
-              <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+              <a href="/register.php">
+                <button class="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 rounded focus:outline-none focus:shadow-outline px-16" type="button">
+                  Register
+                </button>
+              </a>
+              <button class="bg-sky-800 hover:bg-sky-700 text-white font-bold py-2 rounded focus:outline-none focus:shadow-outline px-16" type="submit">
                 Sign In
               </button>
             </div>

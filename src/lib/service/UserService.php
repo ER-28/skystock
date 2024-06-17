@@ -2,9 +2,8 @@
 
 namespace lib\service {
 
-class UserService
-{
+    class UserService
+    {
 
-}
-
+    }
 }

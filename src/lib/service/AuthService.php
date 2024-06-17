@@ -33,7 +33,7 @@ namespace lib\service {
             header('Location: /');
         }
 
-        public static function register(string $username, string $password)
+        public static function register(string $username, string $password): void
         {
             $user = new Users();
             $user = $user->findByEmailOrUsername($username);
