@@ -5,7 +5,6 @@ namespace lib\orm {
     class Query
     {
         private string $table;
-        private array $columns;
         private array $where = [];
         private array $orWhere = [];
         private array $orderBy = [];
@@ -17,7 +16,6 @@ namespace lib\orm {
         public function __construct(OrmModel $model)
         {
             $this->table = $model->table;
-            $this->columns = $model->columns;
             $this->db = $model->db;
             $this->model = $model;
         }
