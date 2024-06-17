@@ -2,6 +2,8 @@
 
 namespace lib\service;
 
+use Users;
+
 class AuthService
 {
 

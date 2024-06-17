@@ -1,12 +1,11 @@
 <?php
 
-  use lib\service\AuthService;
+use lib\service\AuthService;
+use function lib\components\render_head;
+use function lib\components\render_header;
 
-  require_once 'components/head.php';
-  require_once 'components/header.php';
-  require_once 'db/models/Users.php';
+AuthService::checkAuth();
 
-  AuthService::checkAuth();
 ?>
 
 <!doctype html>

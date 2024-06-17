@@ -1,5 +1,7 @@
 <?php
-require_once 'components/head.php';
+
+use function lib\components\render_head;
+
 ?>
 
 <!doctype html>

@@ -1,4 +1,5 @@
 <?php
+namespace lib\components;
 
 function render_header()
 {
