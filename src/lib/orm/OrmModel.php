@@ -1,75 +1,104 @@
 <?php
 
+require_once "SearchResult.php";
+
 abstract class OrmModel
 {
-    protected $table;
-    protected $connection;
+    public string $table;
+    public array $columns;
+    public $data;
+    private \mysqli $db;
 
-    public function __construct($table)
-    {
-        $this->table = $table;
-        $this->connection = new mysqli('localhost', 'root', '', 'test');
-
-        if ($this->connection->connect_error) {
-            die('Connection failed: ' . $this->connection->connect_error);
+    /**
+     * @throws Exception
+     */
+    public function __construct() {
+        try {
+            $this->db = new \mysqli('db', 'isitech', 'isitech', 'isitech');
+        } catch (\Exception $e) {
+            throw new \Exception('Error creating a database connection ');
         }
 
-        $this->connection->set_charset('utf8');
-
-        $this->create_table();
-
-        $this->connection->close();
+        $this->createTable();
     }
 
-    private function create_table()
+    public function createTable(): void
     {
-        $sql = "CREATE TABLE IF NOT EXISTS $this->table (
-            id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-        )";
-
-        if ($this->connection->query($sql) === false) {
-            die('Error creating table: ' . $this->connection->error);
+        $sql = "CREATE TABLE IF NOT EXISTS $this->table (";
+        foreach ($this->columns as $column) {
+            $sql .= $column->name . ' ' . $column->type . '(' . $column->length . ')';
+            if ($column->primaryKey) {
+                $sql .= ' PRIMARY KEY';
+            }
+            if ($column->autoIncrement) {
+                $sql .= ' AUTO_INCREMENT';
+            }
+            if (!$column->nullable) {
+                $sql .= ' NOT NULL';
+            }
+            $sql .= ',';
         }
-
-//        $this->create_columns();
+        $sql = rtrim($sql, ',');
+        $sql .= ')';
+        $this->db->query($sql);
     }
 
-//    private function create_columns()
-//    {
-//        $columns = $this->columns();
-//
-//        foreach ($columns as $column) {
-//            $sql = "ALTER TABLE $this->table ADD $column";
-//
-//            if ($this->connection->query($sql) === false) {
-//                die('Error creating column: ' . $this->connection->error);
-//            }
-//        }
-//    }
+    public function update(): void
+    {
+        //create row or update row if exists
+        $sql = "INSERT INTO $this->table (";
+        foreach ($this->data as $key => $value) {
+            $sql .= $key . ',';
+        }
+        $sql = rtrim($sql, ',');
+        $sql .= ') VALUES (';
+        foreach ($this->data as $key => $value) {
+            $sql .= "'$value',";
+        }
+        $sql = rtrim($sql, ',');
+        $sql .= ') ON DUPLICATE KEY UPDATE ';
+        foreach ($this->data as $key => $value) {
+            $sql .= $key . "='$value',";
+        }
+        $sql = rtrim($sql, ',');
+        $this->db->query($sql);
+    }
 
-    public function save() {
+    public function delete(): void
+    {
+        $sql = "DELETE FROM $this->table WHERE id = " . $this->data['id'];
+        $this->db->query($sql);
+    }
 
-        $class = new \ReflectionClass($this);
-        $tableName = strtolower($class->getShortName());
+    public function where(string $column, string $value): SearchResult
+    {
+        $sql = "SELECT * FROM $this->table WHERE $column = '$value'";
+        $result = $this->db->query($sql);
 
-        $propsToImplode = [];
+        $return = [];
 
-        foreach ($class->getProperties(\ReflectionProperty::IS_PUBLIC) as $property) { // consider only public properties of the providen
-            $propertyName = $property->getName();
-            $propsToImplode[] = '`'.$propertyName.'` = "'.$this->{$propertyName}.'"';
+        foreach ($result->fetch_all() as $row) {
+            $user = new Users();
+            $user->setData($row);
+            $return[] = $user;
         }
 
-        $setClause = implode(',',$propsToImplode); // glue all key value pairs together
-        $sqlQuery = '';
+        return new SearchResult($return);
+    }
 
-        if ($this->id > 0) {
-            $sqlQuery = 'UPDATE `'.$tableName.'` SET '.$setClause.' WHERE id = '.$this->id;
-        } else {
-            $sqlQuery = 'INSERT INTO `'.$tableName.'` SET '.$setClause.', id = '.$this->id;
-        }
+    /**
+     * @return mixed
+     */
+    public function getData(): mixed
+    {
+        return $this->data;
+    }
 
-        return $this->connection->query($sqlQuery);
+    /**
+     * @param mixed $data
+     */
+    public function setData(mixed $data): void
+    {
+        $this->data = $data;
     }
 }

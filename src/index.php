@@ -1,6 +1,10 @@
 <?php
   require_once 'components/head.php';
   require_once 'components/header.php';
+  require_once 'db/models/Users.php';
+  require_once 'lib/service/AuthService.php';
+
+  AuthService::checkAuth();
 ?>
 
 <!doctype html>
@@ -13,7 +17,7 @@
   <body>
 
     <?php
-      render_header()
+      render_header();
     ?>
 
   </body>
