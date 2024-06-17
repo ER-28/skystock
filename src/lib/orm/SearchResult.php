@@ -1,5 +1,7 @@
 <?php
 
+namespace lib\orm;
+
 class SearchResult
 {
 

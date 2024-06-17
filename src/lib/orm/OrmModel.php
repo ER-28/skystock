@@ -1,12 +1,15 @@
 <?php
 
-require_once "SearchResult.php";
+namespace lib\orm;
+
+use Exception;
+use Users;
 
 abstract class OrmModel
 {
     public string $table;
     public array $columns;
-    public $data;
+    public mixed $data;
     private \mysqli $db;
 
     /**

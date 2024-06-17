@@ -1,6 +1,6 @@
 <?php
-require_once '../lib/orm/OrmModel.php';
-require_once '../lib/orm/Column.php';
+
+use lib\orm\OrmModel;
 
 class Users extends OrmModel
 {
@@ -12,8 +12,8 @@ class Users extends OrmModel
             new Column('username', 'varchar', 255, false, false, false),
             new Column('password', 'varchar', 255, false, false, false),
             new Column('email', 'varchar', 255, false, false, false),
-            new Column('created_at', 'datetime', 0, false, false, false),
-            new Column('updated_at', 'datetime', 0, false, false, false),
+            new Column('created_at', 'datetime', 0, true, false, false),
+            new Column('updated_at', 'datetime', 0, true, false, false),
         ];
 
         parent::__construct();
