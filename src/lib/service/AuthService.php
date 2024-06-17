@@ -48,6 +48,7 @@ namespace lib\service {
                     'username' => $username,
                     'password' => password_hash($password, PASSWORD_DEFAULT),
                     'email' => $username,
+                    'role' => 0
                 ]
             );
             $user->update();

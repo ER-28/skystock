@@ -22,6 +22,7 @@ namespace db\models {
                 new Column('email', 'varchar', 255, false, false, false),
                 new Column('created_at', 'datetime', 0, true, false, false),
                 new Column('updated_at', 'datetime', 0, true, false, false),
+                new Column('role', 'int', 1, false, false, false),
             ];
 
             parent::__construct();

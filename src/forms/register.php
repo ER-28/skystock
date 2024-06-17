@@ -18,7 +18,7 @@ $password_confirm = $_POST['password_confirm'];
 
 #[NoReturn] function redirect_to_login($err): void
 {
-    header('Location: /login.php?error='.$err);
+    header('Location: /register.php?error='.$err);
     exit();
 }
 

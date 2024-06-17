@@ -11,7 +11,7 @@
 ?>
 
 <!doctype html>
-<html lang="en" class="bg-slate-950">
+<html lang="en" class="bg-slate-950 text-white">
 
   <?php
     render_head('Acceuil')
