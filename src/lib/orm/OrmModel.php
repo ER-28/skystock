@@ -1,117 +1,120 @@
 <?php
 
-namespace lib\orm;
+namespace lib\orm {
+    $root = realpath($_SERVER["DOCUMENT_ROOT"]);
+    require_once $root . '/lib/orm/SearchResult.php';
+    require_once $root . '/db/models/Users.php';
 
-use Exception;
-use PDO;
-use PDOException;
-use Users;
+    use lib\orm\SearchResult;
+    use Exception;
 
-abstract class OrmModel
-{
-    public string $table;
-    public array $columns;
-    public mixed $data;
-    private PDO $db;
-
-    /**
-     * @throws Exception
-     */
-    public function __construct()
+    abstract class OrmModel
     {
-        try {
-            $this->db = new PDO('mysql:host=db;dbname=isitech', 'isitech', 'isitech');
-            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException $e) {
-            throw new Exception('Error creating a database connection: ' . $e->getMessage());
-        }
+        public string $table;
+        public array $columns;
+        public mixed $data;
+        private \mysqli $db;
 
-        $this->createTable();
-    }
-
-    public function createTable(): void
-    {
-        $sql = "CREATE TABLE IF NOT EXISTS $this->table (";
-        foreach ($this->columns as $column) {
-            $sql .= $column->name . ' ' . $column->type . '(' . $column->length . ')';
-            if ($column->primaryKey) {
-                $sql .= ' PRIMARY KEY';
+        /**
+         * @throws Exception
+         */
+        public function __construct() {
+            try {
+                $this->db = new \mysqli('db', 'isitech', 'isitech', 'isitech');
+            } catch (\Exception $e) {
+                throw new \Exception('Error creating a database connection ');
             }
-            if ($column->autoIncrement) {
-                $sql .= ' AUTO_INCREMENT';
+
+            $this->createTable();
+        }
+
+        public function createTable(): void
+        {
+            $sql = "CREATE TABLE IF NOT EXISTS $this->table (";
+            foreach ($this->columns as $column) {
+                $sql .= $column->name . ' ' . $column->type . '(' . $column->length . ')';
+                if ($column->primaryKey) {
+                    $sql .= ' PRIMARY KEY';
+                }
+                if ($column->autoIncrement) {
+                    $sql .= ' AUTO_INCREMENT';
+                }
+                if (!$column->nullable) {
+                    $sql .= ' NOT NULL';
+                }
+                $sql .= ',';
             }
-            if (!$column->nullable) {
-                $sql .= ' NOT NULL';
+            $sql = rtrim($sql, ',');
+            $sql .= ')';
+            $this->db->query($sql);
+        }
+
+        public function update(): void
+        {
+            //create row or update row if exists
+            $sql = "INSERT INTO $this->table (";
+            foreach ($this->data as $key => $value) {
+                $sql .= $key . ',';
             }
-            $sql .= ',';
-        }
-        $sql = rtrim($sql, ',');
-        $sql .= ')';
-
-        $this->db->exec($sql);
-    }
-
-    public function update(): void
-    {
-        $sql = "INSERT INTO $this->table (";
-        $params = [];
-        foreach ($this->data as $key => $value) {
-            $sql .= $key . ',';
-            $params[":$key"] = $value; // Use named parameters
-        }
-        $sql = rtrim($sql, ',');
-        $sql .= ') VALUES (';
-        foreach ($params as $key => $value) {
-            $sql .= $key . ',';
-        }
-        $sql = rtrim($sql, ',');
-        $sql .= ') ON DUPLICATE KEY UPDATE ';
-        foreach ($params as $key => $value) {
-            $sql .= str_replace(':', '', $key) . "=$key,";
-        }
-        $sql = rtrim($sql, ',');
-
-        $stmt = $this->db->prepare($sql); // Prepare the statement
-        $stmt->execute($params); // Execute with parameters
-    }
-
-    public function delete(): void
-    {
-        $sql = "DELETE FROM $this->table WHERE id = :id";
-        $stmt = $this->db->prepare($sql); // Prepare the statement
-        $stmt->execute([':id' => $this->data['id']]); // Bind parameter
-    }
-
-    public function where(string $column, string $value): SearchResult
-    {
-        $sql = "SELECT * FROM $this->table WHERE $column = :value";
-        $stmt = $this->db->prepare($sql); // Prepare the statement
-        $stmt->execute([':value' => $value]); // Bind parameter
-
-        $return = [];
-
-        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
-            $user = new Users();
-            $user->setData($row);
-            $return[] = $user;
+            $sql = rtrim($sql, ',');
+            $sql .= ') VALUES (';
+            foreach ($this->data as $key => $value) {
+                $sql .= "'$value',";
+            }
+            $sql = rtrim($sql, ',');
+            $sql .= ') ON DUPLICATE KEY UPDATE ';
+            foreach ($this->data as $key => $value) {
+                $sql .= $key . "='$value',";
+            }
+            $sql = rtrim($sql, ',');
+            $this->db->query($sql);
         }
 
-        return new SearchResult($return);
-    }
+        public function delete(): void
+        {
+            $sql = "DELETE FROM $this->table WHERE id = " . $this->data['id'];
+            $this->db->query($sql);
+        }
 
-    /**
-     * @return mixed
-     */
-    public function getData(): mixed
-    {
-        return $this->data;
-    }
+        public function where(string $column, string $value): SearchResult
+        {
+            $sql = "SELECT * FROM $this->table WHERE $column = '$value'";
+            $result = $this->db->query($sql);
 
-    /**
-     * @param mixed $data
-     */
-    public function setData(mixed $data): void
-    {
-        $this->data = $data;
+            $return = [];
+
+            foreach ($result->fetch_all() as $row) {
+                $instance = new static();
+                $instance->setData($this->orderData($row));
+                $return[] = $instance;
+            }
+
+            return new SearchResult($return);
+        }
+
+        private function orderData($array): array
+        {
+            $ordered = [];
+            for ($i = 0; $i < count($array); $i++) {
+                $ordered[$this->columns[$i]->name] = $array[$i];
+            }
+            return $ordered;
+        }
+
+        /**
+         * @return mixed
+         */
+        public function getData(): mixed
+        {
+            return $this->data;
+        }
+
+        /**
+         * @param mixed $data
+         */
+        public function setData(mixed $data): void
+        {
+            $this->data = $data;
+        }
     }
 }

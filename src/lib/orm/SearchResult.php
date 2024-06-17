@@ -1,20 +1,19 @@
 <?php
 
-namespace lib\orm;
-
-class SearchResult
-{
-
-    private array $result;
-
-    public function __construct(array $result)
+namespace lib\orm {
+    class SearchResult
     {
-        $this->result = $result;
-    }
+        private array $result;
 
-    public function first()
-    {
-        return $this->result[0] ?? null;
-    }
+        public function __construct(array $result)
+        {
+            $this->result = $result;
+        }
 
+        public function first()
+        {
+            return $this->result[0] ?? null;
+        }
+
+    }
 }

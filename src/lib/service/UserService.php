@@ -1,8 +1,10 @@
 <?php
 
-namespace lib\service;
+namespace lib\service {
 
 class UserService
 {
+
+}
 
 }

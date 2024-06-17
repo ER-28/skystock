@@ -1,7 +1,6 @@
 <?php
-
-use function lib\components\render_head;
-
+require_once 'components/head.php';
+session_start();
 ?>
 
 <!doctype html>

@@ -1,8 +1,6 @@
 <?php
 
-namespace lib\components;
-
-function render_head($title): void
+function render_head($title)
 {
     echo "
         <head>

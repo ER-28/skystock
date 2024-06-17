@@ -1,4 +1,6 @@
 <?php
+require_once "../lib/service/AuthService.php";
+session_start();
 
 use JetBrains\PhpStorm\NoReturn;
 use lib\service\AuthService;

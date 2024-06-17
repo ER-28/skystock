@@ -1,5 +1,6 @@
 <?php
 require_once 'components/head.php';
+session_start();
 ?>
 
 <!doctype html>

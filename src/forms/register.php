@@ -1,7 +1,9 @@
 <?php
+require_once "../lib/service/AuthService.php";
 
 use JetBrains\PhpStorm\NoReturn;
 use lib\service\AuthService;
+session_start();
 
 if (!isset($_POST['username']) || !isset($_POST['email']) || !isset($_POST['password']) || !isset($_POST['password_confirm'])) {
     header('Location: /register.php');
