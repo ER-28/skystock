@@ -4,9 +4,11 @@ namespace db\models {
     $root = realpath($_SERVER["DOCUMENT_ROOT"]);
     require_once $root . '/lib/orm/OrmModel.php';
     require_once $root . '/lib/orm/Column.php';
+    require_once $root . '/lib/orm/Query.php';
 
     use lib\orm\Column;
     use lib\orm\OrmModel;
+    use lib\orm\Query;
 
     class Users extends OrmModel
     {
@@ -25,10 +27,18 @@ namespace db\models {
             parent::__construct();
         }
 
-        public static function findByEmail(string $email): Users | null
+        public function findByEmailOrUsername(string $email): Users | null
         {
-            $users = new Users();
-            return $users->where('email', $email)->first();
+            $query = new Query($this);
+            $result = $query->where('email', $email)
+                ->orWhere('username', $email)
+                ->get();
+
+            if (count($result) === 0) {
+                return null;
+            }
+
+            return $result->first();
         }
     }
 }

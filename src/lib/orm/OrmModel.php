@@ -13,7 +13,7 @@ namespace lib\orm {
         public string $table;
         public array $columns;
         public mixed $data;
-        private \mysqli $db;
+        public \mysqli $db;
 
         /**
          * @throws Exception
@@ -76,23 +76,7 @@ namespace lib\orm {
             $this->db->query($sql);
         }
 
-        public function where(string $column, string $value): SearchResult
-        {
-            $sql = "SELECT * FROM $this->table WHERE $column = '$value'";
-            $result = $this->db->query($sql);
-
-            $return = [];
-
-            foreach ($result->fetch_all() as $row) {
-                $instance = new static();
-                $instance->setData($this->orderData($row));
-                $return[] = $instance;
-            }
-
-            return new SearchResult($return);
-        }
-
-        private function orderData($array): array
+        public function orderData($array): array
         {
             $ordered = [];
             for ($i = 0; $i < count($array); $i++) {

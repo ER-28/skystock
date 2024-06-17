@@ -18,7 +18,8 @@ namespace lib\service {
 
         public static function login(string $email, string $password): void
         {
-            $user = Users::findByEmail($email);
+            $user = new Users();
+            $user = $user->findByEmailOrUsername($email);
 
             if (!$user) {
                 redirect_to_login('user not found');
@@ -34,7 +35,8 @@ namespace lib\service {
 
         public static function register(string $username, string $password)
         {
-            $user = Users::findByEmail($username);
+            $user = new Users();
+            $user = $user->findByEmailOrUsername($username);
 
             if ($user) {
                 redirect_to_login('user already exists');

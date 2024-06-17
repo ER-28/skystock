@@ -1,7 +1,7 @@
 <?php
 
 namespace lib\orm {
-    class SearchResult
+    class SearchResult implements \Countable
     {
         private array $result;
 
@@ -10,10 +10,14 @@ namespace lib\orm {
             $this->result = $result;
         }
 
-        public function first()
+        public function first(): object
         {
-            return $this->result[0] ?? null;
+            return $this->result[0];
         }
 
+        public function count(): int
+        {
+            return count($this->result);
+        }
     }
 }
