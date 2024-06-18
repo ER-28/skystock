@@ -1,13 +1,6 @@
 <?php
 
 namespace lib\orm {
-    $root = realpath($_SERVER["DOCUMENT_ROOT"]);
-    require_once $root . '/lib/orm/SearchResult.php';
-    require_once $root . '/db/models/Users.php';
-    require_once $root . '/db/models/QuerySave.php';
-    
-    use db\models\QuerySave;
-    use lib\orm\SearchResult;
     use Exception;
 
     abstract class OrmModel
@@ -27,7 +20,13 @@ namespace lib\orm {
                 throw new \Exception('Error creating a database connection ');
             }
 
-            $this->createTable();
+            // check if table exist
+            $sql = "SHOW TABLES LIKE '$this->table'";
+            $result = $this->db->query($sql);
+            if ($result->num_rows === 0) {
+                $this->createTable();
+                $this->add_constraint();
+            }
             $this->checkColumns();
         }
         
@@ -53,19 +52,19 @@ namespace lib\orm {
             $sql = rtrim($sql, ',');
             $sql .= ')';
             $this->db->query($sql);
-            $this->add_constraint();
         }
         
         /**
          * @return void
          */
-        public function add_constraint()
+        public function add_constraint(): void
         {
+            
             $sql = "ALTER TABLE $this->table ";
             foreach ($this->columns as $column) {
                 foreach ($column->constraints as $constraint) {
                     if ($constraint->type === ConstraintType::FOREIGN_KEY) {
-                        $sql .= "ADD CONSTRAINT $constraint->name FOREIGN KEY ($constraint->key) REFERENCES $constraint->reference ON DELETE $constraint->onDelete ON UPDATE $constraint->onUpdate,";
+                        $sql .= "ADD CONSTRAINT $constraint->name FOREIGN KEY ($constraint->key) REFERENCES $constraint->reference ($constraint->referenceKey) ON DELETE $constraint->onDelete ON UPDATE $constraint->onUpdate,";
                     }
                 }
             }

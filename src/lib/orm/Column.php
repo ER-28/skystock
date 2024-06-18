@@ -23,7 +23,7 @@ namespace lib\orm {
             public bool $nullable,
             public bool $primaryKey,
             public bool $autoIncrement,
-            public array $constraints
+            public array $constraints = []
         ){}
     }
 }

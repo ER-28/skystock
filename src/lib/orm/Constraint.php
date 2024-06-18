@@ -4,7 +4,6 @@
         
         enum ConstraintType
         {
-            case PRIMARY_KEY;
             case FOREIGN_KEY;
         }
         
@@ -12,13 +11,22 @@
         {
             
             /**
-             *
+             * Constraint constructor.
+             * @param string $name
+             * @param ConstraintType $type
+             * @param string $key
+             * @param string $reference
+             * @param string $referenceKey
+             * @param string $onUpdate
+             * @param string $onDelete
+             * @return void
              */
             public function __construct(
                 public string $name,
                 public ConstraintType $type,
                 public string $key,
                 public string $reference,
+                public string $referenceKey,
                 public string $onUpdate,
                 public string $onDelete
             ){}

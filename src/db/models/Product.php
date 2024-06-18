@@ -5,10 +5,12 @@
         require_once $root . '/lib/orm/OrmModel.php';
         require_once $root . '/lib/orm/Column.php';
         require_once $root . '/lib/orm/Query.php';
+        require_once $root . '/lib/orm/Constraint.php';
         
         use lib\orm\Column;
+        use lib\orm\Constraint;
+        use lib\orm\ConstraintType;
         use lib\orm\OrmModel;
-        use lib\orm\Query;
         
         class Product extends OrmModel
         {
@@ -20,7 +22,17 @@
                     new Column('name', 'varchar', 255, false, false, false),
                     new Column('price', 'decimal', 10, false, false, false),
                     new Column('stock', 'int', 11, false, false, false),
-                    new Column('category_id', 'int', 11, false, false, false),
+                    new Column('category_id', 'int', 11, false, false, false, [
+                        new Constraint(
+                            'product_categories_fk',
+                            ConstraintType::FOREIGN_KEY,
+                            'category_id',
+                            'categories',
+                            'id',
+                            'CASCADE',
+                            'CASCADE'
+                        )
+                    ]),
                 ];
                 
                 parent::__construct();

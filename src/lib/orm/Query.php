@@ -6,6 +6,9 @@ namespace lib\orm {
     
     $root = realpath($_SERVER["DOCUMENT_ROOT"]);
     require_once $root . '/db/models/QuerySave.php';
+    require_once $root . '/lib/orm/SearchResult.php';
+    
+    use lib\orm\SearchResult;
 
     class Query
     {
