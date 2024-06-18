@@ -100,6 +100,7 @@ namespace lib\orm {
         
         /**
          * @return SearchResult<OrmModel>
+         * @throws \Exception
          */
         public function get(): SearchResult
         {
