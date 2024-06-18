@@ -28,7 +28,7 @@
   <div class="p-8">
     <div class="flex flex-row justify-between items-center">
       <p class="font-bold text-2xl">Inventory</p>
-      <a href="/forms/add-product.php">
+      <a href="/add_product.php">
         <button class="bg-sky-800 hover:bg-sky-700 text-white font-bold py-2 rounded focus:outline-none focus:shadow-outline px-16" type="button">
           Add Product
         </button>
