@@ -12,18 +12,6 @@ services:
       - "8080:80"
 
 
-  api_log:
-    build:
-      context: ./logger
-      dockerfile: Dockerfile
-    ports:
-      - "12000:3001"
-    expose:
-      - 12000
-    volumes:
-      - ./logger:/logger
-
-
   db:
     image: mariadb
     restart: always

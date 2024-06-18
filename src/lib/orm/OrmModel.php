@@ -157,7 +157,7 @@ namespace lib\orm {
             $safe_data = [];
             
             foreach ($data as $key => $value) {
-                $safe_data[$key] = $this->db->real_escape_string($value);
+                $safe_data[$key] = $value ? $this->db->real_escape_string($value) : $value;
             }
             
             $this->data = $safe_data;

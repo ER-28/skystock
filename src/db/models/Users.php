@@ -47,7 +47,6 @@ namespace db\models {
         {
             $query = new Query($this);
             $user = $query
-                ->select(['username'])
                 ->where('id', $id)
                 ->get();
             
