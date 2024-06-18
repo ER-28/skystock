@@ -36,6 +36,7 @@ namespace lib\orm {
         
         /**
          * @return void
+         * @throws Exception
          */
         public function createTable(): void
         {
@@ -106,6 +107,7 @@ namespace lib\orm {
         
         /**
          * @return void
+         * @throws Exception
          */
         public function save(): void
         {
@@ -130,6 +132,7 @@ namespace lib\orm {
         
         /**
          * @return void
+         * @throws Exception
          */
         public function delete(): void
         {
