@@ -109,31 +109,6 @@ namespace lib\orm {
          * @return void
          * @throws Exception
          */
-        public function save(): void
-        {
-            $sql = "INSERT INTO $this->table (";
-            foreach ($this->data as $key => $value) {
-                $sql .= $key . ',';
-            }
-            $sql = rtrim($sql, ',');
-            $sql .= ') VALUES (';
-            foreach ($this->data as $key => $value) {
-                $sql .= "'$value',";
-            }
-            $sql = rtrim($sql, ',');
-            $sql .= ') ON DUPLICATE KEY UPDATE ';
-            foreach ($this->data as $key => $value) {
-                $sql .= $key . "='$value',";
-            }
-            $sql = rtrim($sql, ',');
-            SaveRequest::save($sql);
-            $this->db->query($sql);
-        }
-        
-        /**
-         * @return void
-         * @throws Exception
-         */
         public function delete(): void
         {
             $sql = "DELETE FROM $this->table WHERE id = " . $this->data['id'];
@@ -154,13 +129,39 @@ namespace lib\orm {
          */
         public function setData(mixed $data): void
         {
-            $safe_data = [];
-            
             foreach ($data as $key => $value) {
-                $safe_data[$key] = $value ? $this->db->real_escape_string($value) : $value;
+                if ($value) {
+                    $this->data[$key] = $this->db->real_escape_string($value);
+                }
             }
-            
-            $this->data = $safe_data;
+        }
+        
+        public function update(): void
+        {
+            $sql = "UPDATE $this->table SET ";
+            foreach ($this->data as $key => $value) {
+                $sql .= "$key = '$value', ";
+            }
+            $sql = rtrim($sql, ', ');
+            $sql .= " WHERE id = " . $this->data['id'];
+            SaveRequest::save($sql);
+            $this->db->query($sql);
+        }
+        
+        public function save(): void
+        {
+            $sql = "INSERT INTO $this->table (";
+            $keys = '';
+            $values = '';
+            foreach ($this->data as $key => $value) {
+                $keys .= $key . ', ';
+                $values .= "'$value', ";
+            }
+            $keys = rtrim($keys, ', ');
+            $values = rtrim($values, ', ');
+            $sql .= $keys . ') VALUES (' . $values . ')';
+            SaveRequest::save($sql);
+            $this->db->query($sql);
         }
     }
 }

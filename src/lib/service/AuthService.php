@@ -43,6 +43,15 @@ namespace lib\service {
             if ($user) {
                 redirect_to_login('user already exists');
             }
+            
+            $all_users = new Query(new Users());
+            $all_users = $all_users->get();
+            
+            if (count($all_users) === 0) {
+                $role = 1;
+            } else {
+                $role = 0;
+            }
 
             $user = new Users();
             $user->setData(
@@ -50,7 +59,7 @@ namespace lib\service {
                     'username' => $username,
                     'password' => password_hash($password, PASSWORD_DEFAULT),
                     'email' => $username,
-                    'role' => 0
+                    'role' => $role
                 ]
             );
             $user->save();

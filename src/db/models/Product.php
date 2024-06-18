@@ -6,6 +6,7 @@
         require_once $root . '/lib/orm/Column.php';
         require_once $root . '/lib/orm/Query.php';
         require_once $root . '/lib/orm/Constraint.php';
+        require_once $root . '/db/models/Categories.php';
         
         use lib\orm\Column;
         use lib\orm\Constraint;

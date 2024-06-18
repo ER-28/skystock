@@ -28,7 +28,7 @@
                     ' .($category ? '<p class="text-white">Category: <span class="font-bold">'.$category->getData()['name'].'</span></p>' : '').'
                 </div>
                 <div class="flex flex-row gap-4">
-                    <a href="/forms/edit-product.php?id='.$product->getData()['id'].'">
+                    <a href="/edit_product.php?id='.$product->getData()['id'].'">
                         <button class="bg-sky-800 hover:bg-sky-700 text-white font-bold py-2 rounded focus:outline-none focus:shadow-outline px-4" type="button">
                             Edit
                         </button>
