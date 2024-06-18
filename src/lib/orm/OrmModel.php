@@ -24,7 +24,6 @@ namespace lib\orm {
                 throw new \Exception('Error creating a database connection ');
             }
 
-            // check if table exist
             $sql = "SHOW TABLES LIKE '$this->table'";
             SaveRequest::save($sql);
             $result = $this->db->query($sql);
