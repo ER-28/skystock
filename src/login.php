@@ -39,8 +39,11 @@ session_start();
                 Sign In
               </button>
             </div>
+            <div class="flex justify-center">
+              <a href="/forgot_password.php" class="text-blue-400 hover:text-blue-300">Forgot password?</a>
+            </div>
+        </form>
         </div>
       </div>
-
     </body>
 </html>

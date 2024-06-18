@@ -26,3 +26,10 @@ services:
         - ./dbvolume:/var/lib/mysql
     expose:
       - "3306"
+
+
+  mailcatcher:
+    image: schickling/mailcatcher
+    ports:
+      - "1080:1080"
+      - "1025:1025"
