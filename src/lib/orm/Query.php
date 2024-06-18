@@ -2,14 +2,14 @@
 
 namespace lib\orm {
     
-    use db\models\QuerySave;
     
     $root = realpath($_SERVER["DOCUMENT_ROOT"]);
-    require_once $root . '/db/models/QuerySave.php';
     require_once $root . '/lib/orm/SearchResult.php';
+    require_once $root . '/lib/SaveRequest.php';
     
     use lib\orm\SearchResult;
-
+    use lib\SaveRequest;
+    
     class Query
     {
         private string $table;
@@ -149,13 +149,7 @@ namespace lib\orm {
                 $query .= ' OFFSET ' . $this->offset;
             }
             
-            $saved_query = new QuerySave();
-            $saved_query->setData([
-                'text' => $query,
-                'send_at' => date('Y-m-d H:i:s')
-            ]);
-            $saved_query->save();
-            
+            SaveRequest::save($query);
             $result = $this->db->prepare($query);
 
             if (count($params) > 0) {

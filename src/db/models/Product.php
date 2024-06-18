@@ -26,9 +26,9 @@
                         new Constraint(
                             'product_categories_fk',
                             ConstraintType::FOREIGN_KEY,
-                            'category_id',
-                            'categories',
-                            'id',
+                            ['category_id'],
+                            new Categories(),
+                            ['id'],
                             'CASCADE',
                             'CASCADE'
                         )

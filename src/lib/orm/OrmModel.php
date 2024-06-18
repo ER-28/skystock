@@ -1,7 +1,11 @@
 <?php
 
 namespace lib\orm {
+    $root = realpath($_SERVER["DOCUMENT_ROOT"]);
+    require_once $root . '/lib/SaveRequest.php';
     use Exception;
+    
+    use lib\SaveRequest;
 
     abstract class OrmModel
     {
@@ -22,10 +26,10 @@ namespace lib\orm {
 
             // check if table exist
             $sql = "SHOW TABLES LIKE '$this->table'";
+            SaveRequest::save($sql);
             $result = $this->db->query($sql);
             if ($result->num_rows === 0) {
                 $this->createTable();
-                $this->add_constraint();
             }
             $this->checkColumns();
         }
@@ -48,27 +52,25 @@ namespace lib\orm {
                     $sql .= ' NOT NULL';
                 }
                 $sql .= ',';
-            }
-            $sql = rtrim($sql, ',');
-            $sql .= ')';
-            $this->db->query($sql);
-        }
-        
-        /**
-         * @return void
-         */
-        public function add_constraint(): void
-        {
-            
-            $sql = "ALTER TABLE $this->table ";
-            foreach ($this->columns as $column) {
                 foreach ($column->constraints as $constraint) {
+                    $referenceName = $constraint->reference->table;
                     if ($constraint->type === ConstraintType::FOREIGN_KEY) {
-                        $sql .= "ADD CONSTRAINT $constraint->name FOREIGN KEY ($constraint->key) REFERENCES $constraint->reference ($constraint->referenceKey) ON DELETE $constraint->onDelete ON UPDATE $constraint->onUpdate,";
+                        $keys = implode(',', $constraint->key);
+                        $referenceKeys = implode(',', $constraint->referenceKey);
+                        
+                        $sql .= "CONSTRAINT $constraint->name FOREIGN KEY ($keys) REFERENCES $referenceName ($referenceKeys)";
+                        if ($constraint->onUpdate) {
+                            $constraint->onUpdate = 'NO ACTION';
+                        }
+                        if ($constraint->onDelete) {
+                            $constraint->onDelete = 'NO ACTION';
+                        }
                     }
                 }
             }
             $sql = rtrim($sql, ',');
+            $sql .= ')';
+            SaveRequest::save($sql);
             $this->db->query($sql);
         }
         
@@ -96,6 +98,7 @@ namespace lib\orm {
                     if (!$column->nullable) {
                         $sql .= ' NOT NULL';
                     }
+                    SaveRequest::save($sql);
                     $this->db->query($sql);
                 }
             }
@@ -121,6 +124,7 @@ namespace lib\orm {
                 $sql .= $key . "='$value',";
             }
             $sql = rtrim($sql, ',');
+            SaveRequest::save($sql);
             $this->db->query($sql);
         }
         
@@ -130,6 +134,7 @@ namespace lib\orm {
         public function delete(): void
         {
             $sql = "DELETE FROM $this->table WHERE id = " . $this->data['id'];
+            SaveRequest::save($sql);
             $this->db->query($sql);
         }
 
@@ -146,7 +151,13 @@ namespace lib\orm {
          */
         public function setData(mixed $data): void
         {
-            $this->data = $data;
+            $safe_data = [];
+            
+            foreach ($data as $key => $value) {
+                $safe_data[$key] = $this->db->real_escape_string($value);
+            }
+            
+            $this->data = $safe_data;
         }
     }
 }

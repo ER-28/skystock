@@ -47,6 +47,10 @@
             $query = new Query($product);
             $products = $query->get();
             
+            if (count($products->arr()) === 0) {
+                echo '<p class="text-center">No products found</p>';
+            }
+            
             foreach ($products->arr() as $product) {
                 render_inventory_item($product);
             }

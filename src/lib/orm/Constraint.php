@@ -14,9 +14,9 @@
              * Constraint constructor.
              * @param string $name
              * @param ConstraintType $type
-             * @param string $key
-             * @param string $reference
-             * @param string $referenceKey
+             * @param array $key
+             * @param OrmModel $reference
+             * @param array $referenceKey
              * @param string $onUpdate
              * @param string $onDelete
              * @return void
@@ -24,9 +24,9 @@
             public function __construct(
                 public string $name,
                 public ConstraintType $type,
-                public string $key,
-                public string $reference,
-                public string $referenceKey,
+                public array $key,
+                public OrmModel $reference,
+                public array $referenceKey,
                 public string $onUpdate,
                 public string $onDelete
             ){}
