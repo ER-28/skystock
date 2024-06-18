@@ -9,7 +9,7 @@
     function render_header(): void
     {
         $colors = [
-            'red', 'blue', 'green', 'yellow', 'indigo', 'purple', 'pink', 'gray', 'white', 'black', 'slate', 'sky'
+            'red', 'blue', 'green', 'yellow', 'indigo', 'purple', 'pink', 'gray', 'slate', 'sky'
         ];
         $variants = [500, 600, 700];
         
@@ -22,9 +22,11 @@
         
         if (!isset($color)) {
             $color = $colors[rand(0, count($colors) - 1)];
+            $_SESSION['color'] = $color;
         }
         if (!isset($variant)) {
             $variant = $variants[rand(0, count($variants) - 1)];
+            $_SESSION['variant'] = $variant;
         }
         
         

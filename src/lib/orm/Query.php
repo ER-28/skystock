@@ -1,6 +1,11 @@
 <?php
 
 namespace lib\orm {
+    
+    use db\models\QuerySave;
+    
+    $root = realpath($_SERVER["DOCUMENT_ROOT"]);
+    require_once $root . '/db/models/QuerySave.php';
 
     class Query
     {
@@ -15,6 +20,10 @@ namespace lib\orm {
         private OrmModel $model;
         private \mysqli $db;
 
+        /**
+         * Query constructor.
+         * @param OrmModel $model
+         */
         public function __construct(OrmModel $model)
         {
             $this->table = $model->table;
@@ -22,43 +31,73 @@ namespace lib\orm {
             $this->columns = $model->columns;
             $this->model = $model;
         }
-
+        
+        /**
+         * @param string $column
+         * @param string $value
+         * @return $this
+         */
         public function where(string $column, string $value): Query
         {
             $this->where[] = [$column, $value];
             return $this;
         }
-
+        
+        /**
+         * @param string $column
+         * @param string $value
+         * @return $this
+         */
         public function orWhere(string $column, string $value): Query
         {
             $this->orWhere[] = [$column, $value];
             return $this;
         }
-
+        
+        /**
+         * @param string $column
+         * @param string $direction
+         * @return $this
+         */
         public function orderBy(string $column, string $direction): Query
         {
             $this->orderBy[] = [$column, $direction];
             return $this;
         }
-
+        
+        /**
+         * @param int $limit
+         * @return $this
+         */
         public function limit(int $limit): Query
         {
             $this->limit = $limit;
             return $this;
         }
-
+        
+        /**
+         * @param int $offset
+         * @return $this
+         */
         public function offset(int $offset): Query
         {
             $this->offset = $offset;
             return $this;
         }
         
-        public function select(array $string)
+        /**
+         * @param array $string
+         * @return $this
+         */
+        public function select(array $string): Query
         {
             $this->select = $string;
             return $this;
         }
-
+        
+        /**
+         * @return SearchResult<OrmModel>
+         */
         public function get(): SearchResult
         {
             $query = "SELECT ";
@@ -107,6 +146,13 @@ namespace lib\orm {
                 $query .= ' OFFSET ' . $this->offset;
             }
             
+            $saved_query = new QuerySave();
+            $saved_query->setData([
+                'text' => $query,
+                'send_at' => date('Y-m-d H:i:s')
+            ]);
+            $saved_query->save();
+            
             $result = $this->db->prepare($query);
 
             if (count($params) > 0) {
@@ -127,6 +173,11 @@ namespace lib\orm {
             return new SearchResult($return);
         }
         
+        /**
+         * @param array $array
+         * @param array $selected
+         * @return array
+         */
         function queryOrderData(array $array, array $selected): array
         {
             $used_selected = $selected;

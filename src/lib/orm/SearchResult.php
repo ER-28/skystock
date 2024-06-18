@@ -10,8 +10,12 @@ namespace lib\orm {
             $this->result = $result;
         }
 
-        public function first(): object
+        public function first(): object | null
         {
+            if (count($this->result) === 0) {
+                return null;
+            }
+            
             return $this->result[0];
         }
 
