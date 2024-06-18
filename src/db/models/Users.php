@@ -31,7 +31,8 @@ namespace db\models {
         public function findByEmailOrUsername(string $email): Users | null
         {
             $query = new Query($this);
-            $result = $query->where('email', $email)
+            $result = $query
+                ->where('email', $email)
                 ->orWhere('username', $email)
                 ->get();
 
@@ -40,6 +41,21 @@ namespace db\models {
             }
 
             return $result->first();
+        }
+        
+        public function getById($id): Users | null
+        {
+            $query = new Query($this);
+            $user = $query
+                ->select(['username'])
+                ->where('id', $id)
+                ->get();
+            
+            if (count($user) === 0) {
+                return null;
+            }
+            
+            return $user->first();
         }
     }
 }

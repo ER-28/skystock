@@ -5,6 +5,8 @@ namespace lib\orm {
     class Query
     {
         private string $table;
+        private array $columns;
+        private array $select = [];
         private array $where = [];
         private array $orWhere = [];
         private array $orderBy = [];
@@ -17,6 +19,7 @@ namespace lib\orm {
         {
             $this->table = $model->table;
             $this->db = $model->db;
+            $this->columns = $model->columns;
             $this->model = $model;
         }
 
@@ -49,11 +52,28 @@ namespace lib\orm {
             $this->offset = $offset;
             return $this;
         }
+        
+        public function select(array $string)
+        {
+            $this->select = $string;
+            return $this;
+        }
 
         public function get(): SearchResult
         {
-            $query = "SELECT * FROM $this->table";
+            $query = "SELECT ";
             $params = [];
+            
+            if (count($this->select) > 0) {
+                foreach ($this->select as $select) {
+                    $query .= $select . ', ';
+                }
+                $query = substr($query, 0, -2);
+            } else {
+                $query .= '*';
+            }
+            
+            $query .= ' FROM ' . $this->table;
 
             if (count($this->where) > 0) {
                 $query .= ' WHERE ';
@@ -86,7 +106,7 @@ namespace lib\orm {
             if ($this->offset > 0) {
                 $query .= ' OFFSET ' . $this->offset;
             }
-
+            
             $result = $this->db->prepare($query);
 
             if (count($params) > 0) {
@@ -100,11 +120,28 @@ namespace lib\orm {
 
             foreach ($result->get_result()->fetch_all() as $row) {
                 $instance = new $this->model();
-                $instance->setData($instance->orderData($row));
+                $instance->setData($this->queryOrderData($row, selected: $this->select));
                 $return[] = $instance;
             }
 
             return new SearchResult($return);
+        }
+        
+        function queryOrderData(array $array, array $selected): array
+        {
+            $used_selected = $selected;
+            if (count($selected) === 0) {
+                $used_selected = [];
+                for ($i = 0; $i < count($array); $i++) {
+                    $used_selected[] = $this->columns[$i]->name;
+                }
+            }
+            
+            $ordered = [];
+            for ($i = 0; $i < count($array); $i++) {
+                $ordered[$used_selected[$i]] = $array[$i];
+            }
+            return $ordered;
         }
     }
 }

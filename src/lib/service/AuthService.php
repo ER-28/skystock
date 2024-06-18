@@ -29,7 +29,7 @@ namespace lib\service {
                 redirect_to_login('invalid password');
             }
 
-            $_SESSION['user'] = $user;
+            $_SESSION['user'] = $user->data['id'];
             header('Location: /');
         }
 
@@ -52,8 +52,8 @@ namespace lib\service {
                 ]
             );
             $user->update();
-
-            $_SESSION['user'] = $user;
+            
+            $_SESSION['user'] = $user->data['id'];
             header('Location: /');
         }
 

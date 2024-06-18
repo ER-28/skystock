@@ -19,5 +19,10 @@ namespace lib\orm {
         {
             return count($this->result);
         }
+        
+        public function arr()
+        {
+            return $this->result;
+        }
     }
 }
