@@ -18,7 +18,7 @@
 <html lang="en" class="bg-slate-950 text-white">
 
     <?php
-        render_head('Sales');
+        render_head('Ajouter un produit');
         
         $query = new Query(new Categories());
         $categories_array = $query->get()->arr();
@@ -28,7 +28,7 @@
     <body>
     <div class="flex flex-row justify-center items-center h-screen w-full bg-slate-950">
         <div class="container max-w-xl bg-slate-800 p-8 text-gray-200 rounded border border-blue-300">
-            <form action="forms/login.php" method="post" class="w-full flex flex-col gap-5">
+            <form action="forms/add_product.php" method="post" class="w-full flex flex-col gap-5">
                 <p class="font-bold text-xl">Ajout d'un produit</p>
                 <div class="mb-4">
                     <label for="name" class="block text-sm font-bold mb-2">Nom</label>
@@ -40,14 +40,14 @@
                 <div class="mb-6">
                     <label for="price" class="block text-sm font-bold mb-2">Prix</label>
                     <input
-                        type="text" name="price" id="price" placeholder="Prix du produit"
+                        type="number" name="price" id="price" placeholder="Prix du produit"
                         class="shadow appearance-none border border-blue-300 rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline bg-slate-800"
                     >
                 </div>
                 <div class="mb-6">
                     <label for="stock" class="block text-sm font-bold mb-2">Stock</label>
                     <input
-                        type="text" name="stock" id="stock" placeholder="Stock du produit"
+                        type="number" name="stock" id="stock" placeholder="Stock du produit"
                         class="shadow appearance-none border border-blue-300 rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline bg-slate-800"
                     >
                 </div>

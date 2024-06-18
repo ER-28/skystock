@@ -33,7 +33,7 @@
                             Edit
                         </button>
                     </a>
-                    <a href="/forms/delete-product.php?id='.$product->getData()['id'].'">
+                    <a href="/forms/delete_product.php?id='.$product->getData()['id'].'">
                         <button class="bg-red-800 hover:bg-red-700 text-white font-bold py-2 rounded focus:outline-none focus:shadow-outline px-4" type="button">
                             Delete
                         </button>
