@@ -6,12 +6,24 @@
     require_once 'components/inventory_item.php';
     require_once 'lib/service/AuthService.php';
     require_once 'db/models/Product.php';
+    require_once 'db/models/Categories.php';
     
+    use db\models\Categories;
     use db\models\Product;
     use lib\orm\Query;
     use lib\service as Service;
     
     Service\AuthService::checkAuth();
+    
+    if (isset($_GET['search'])) {
+        $query = new Query(new Product());
+        $products = $query
+            ->where('category_id', $_GET['search'])
+            ->get();
+    } else {
+        $query = new Query(new Product());
+        $products = $query->get();
+    }
 
 ?>
 
@@ -23,7 +35,6 @@
 ?>
 
 <body>
-
   <?php
       render_header();
   ?>
@@ -37,16 +48,29 @@
         </button>
       </a>
     </div>
+    <div class="flex flex-row gap-6 mt-4">
+      <a href="?" class='bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded focus:outline-none focus:shadow-outline px-16' type='button'>
+        Tout categories
+      </a>
+        <?php
+            $query = new Query(new Categories());
+            $categories = $query->get()->arr();
+            
+            foreach ($categories as $category) {
+                echo "
+                    <a href='?search={$category->getData()['id']}' class='bg-slate-800 hover:bg-slate-700 text-white font-bold py-2 rounded focus:outline-none focus:shadow-outline px-16' type='button'>
+                      {$category->getData()['name']}
+                    </a>
+                  ";
+            }
+        ?>
+    </div>
     <div class="flex flex-row gap-6 h-screen mt-4 ">
 <!--      <div class="flex flex-row justify-between w-64 bg-slate-900 rounded-xl">-->
 <!--        <p>filter</p>-->
 <!--      </div>-->
       <div class="flex flex-col gap-4 w-full">
         <?php
-            $product = new Product();
-            $query = new Query($product);
-            $products = $query->get();
-            
             if (count($products->arr()) === 0) {
                 echo '<p class="text-center">No products found</p>';
             }

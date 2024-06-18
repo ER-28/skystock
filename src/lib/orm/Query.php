@@ -40,9 +40,9 @@ namespace lib\orm {
          * @param string $value
          * @return $this
          */
-        public function where(string $column, string $value): Query
+        public function where(string $column, string $value, string $operator = '='): Query
         {
-            $this->where[] = [$column, $value];
+            $this->where[] = [$column, $value, $operator];
             return $this;
         }
         
@@ -121,7 +121,7 @@ namespace lib\orm {
             if (count($this->where) > 0) {
                 $query .= ' WHERE ';
                 foreach ($this->where as $where) {
-                    $query .= $where[0] . ' = ? AND ';
+                    $query .= $where[0] . ' ' . $where[2] . ' ? AND ';
                     $params[] = $where[1];
                 }
                 $query = substr($query, 0, -5);
