@@ -35,13 +35,13 @@
             <header class='flex flex-row justify-between items-center bg-slate-950 p-4 border-b border-slate-600'>
                 <p class='text-4xl font-bold text-white'><span class='text-blue-400'>Sky</span><span>stock</span></p>
                 <div class='flex flex-row gap-10'>
-                    <a href='' class='text-white border-b py-3 px-6 hover:border-blue-500 transition-colors'>
+                    <a href='/' class='text-white border-b py-3 px-6 hover:border-blue-500 transition-colors'>
                         Dashboard
                     </a>
-                    <a href='' class='text-white border-b py-3 px-6 hover:border-blue-500 transition-colors'>
+                    <a href='/inventory.php' class='text-white border-b py-3 px-6 hover:border-blue-500 transition-colors'>
                         Inventory
                     </a>
-                    <a href='' class='text-white border-b py-3 px-6 hover:border-blue-500 transition-colors'>
+                    <a href='/sales.php' class='text-white border-b py-3 px-6 hover:border-blue-500 transition-colors'>
                         Sales
                     </a>
                 </div>

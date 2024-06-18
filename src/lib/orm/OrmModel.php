@@ -49,9 +49,8 @@ namespace lib\orm {
             $this->db->query($sql);
         }
 
-        public function update(): void
+        public function save(): void
         {
-            //create row or update row if exists
             $sql = "INSERT INTO $this->table (";
             foreach ($this->data as $key => $value) {
                 $sql .= $key . ',';

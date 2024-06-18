@@ -3,9 +3,11 @@ namespace lib\service {
 
     $root = realpath($_SERVER["DOCUMENT_ROOT"]);
     require_once $root . '/db/models/Users.php';
+    require_once $root . '/lib/orm/Query.php';
 
     use db\models\Users;
-
+    use lib\orm\Query;
+    
     class AuthService
     {
         public static function checkAuth(): void
@@ -51,7 +53,14 @@ namespace lib\service {
                     'role' => 0
                 ]
             );
-            $user->update();
+            $user->save();
+            
+            $query = new Query($user);
+            $user = $query
+                ->select(['id'])
+                ->where('username', $username)
+                ->get()
+                ->first();
             
             $_SESSION['user'] = $user->data['id'];
             header('Location: /');

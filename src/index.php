@@ -14,7 +14,7 @@
 <html lang="en" class="bg-slate-950 text-white">
 
   <?php
-    render_head('Acceuil')
+    render_head('Dashboard')
   ?>
 
   <body>
