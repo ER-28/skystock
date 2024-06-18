@@ -53,6 +53,53 @@ namespace lib\orm {
             $sql = rtrim($sql, ',');
             $sql .= ')';
             $this->db->query($sql);
+            $this->add_constraint();
+        }
+        
+        /**
+         * @return void
+         */
+        public function add_constraint()
+        {
+            $sql = "ALTER TABLE $this->table ";
+            foreach ($this->columns as $column) {
+                foreach ($column->constraints as $constraint) {
+                    if ($constraint->type === ConstraintType::FOREIGN_KEY) {
+                        $sql .= "ADD CONSTRAINT $constraint->name FOREIGN KEY ($constraint->key) REFERENCES $constraint->reference ON DELETE $constraint->onDelete ON UPDATE $constraint->onUpdate,";
+                    }
+                }
+            }
+            $sql = rtrim($sql, ',');
+            $this->db->query($sql);
+        }
+        
+        /**
+         * @return void
+         */
+        private function checkColumns(): void
+        {
+            $sql = "SHOW COLUMNS FROM $this->table";
+            $result = $this->db->query($sql);
+            $columns = $result->fetch_all();
+            $column_names = [];
+            foreach ($columns as $column) {
+                $column_names[] = $column[0];
+            }
+            foreach ($this->columns as $column) {
+                if (!in_array($column->name, $column_names)) {
+                    $sql = "ALTER TABLE $this->table ADD COLUMN " . $column->name . ' ' . $column->type . '(' . $column->length . ')';
+                    if ($column->primaryKey) {
+                        $sql .= ' PRIMARY KEY';
+                    }
+                    if ($column->autoIncrement) {
+                        $sql .= ' AUTO_INCREMENT';
+                    }
+                    if (!$column->nullable) {
+                        $sql .= ' NOT NULL';
+                    }
+                    $this->db->query($sql);
+                }
+            }
         }
         
         /**
@@ -86,19 +133,6 @@ namespace lib\orm {
             $sql = "DELETE FROM $this->table WHERE id = " . $this->data['id'];
             $this->db->query($sql);
         }
-        
-        /**
-         * @param $array
-         * @return array
-         */
-        public function orderData($array): array
-        {
-            $ordered = [];
-            for ($i = 0; $i < count($array); $i++) {
-                $ordered[$this->columns[$i]->name] = $array[$i];
-            }
-            return $ordered;
-        }
 
         /**
          * @return mixed
@@ -114,32 +148,6 @@ namespace lib\orm {
         public function setData(mixed $data): void
         {
             $this->data = $data;
-        }
-        
-        private function checkColumns(): void
-        {
-            $sql = "SHOW COLUMNS FROM $this->table";
-            $result = $this->db->query($sql);
-            $columns = $result->fetch_all();
-            $column_names = [];
-            foreach ($columns as $column) {
-                $column_names[] = $column[0];
-            }
-            foreach ($this->columns as $column) {
-                if (!in_array($column->name, $column_names)) {
-                    $sql = "ALTER TABLE $this->table ADD COLUMN " . $column->name . ' ' . $column->type . '(' . $column->length . ')';
-                    if ($column->primaryKey) {
-                        $sql .= ' PRIMARY KEY';
-                    }
-                    if ($column->autoIncrement) {
-                        $sql .= ' AUTO_INCREMENT';
-                    }
-                    if (!$column->nullable) {
-                        $sql .= ' NOT NULL';
-                    }
-                    $this->db->query($sql);
-                }
-            }
         }
     }
 }

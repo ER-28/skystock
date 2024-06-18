@@ -5,7 +5,10 @@
     require_once 'components/header.php';
     require_once 'components/inventory_item.php';
     require_once 'lib/service/AuthService.php';
-    require_once 'lib/service/ProductService.php';
+    require_once 'db/models/Product.php';
+    
+    use db\models\Product;
+    use lib\orm\Query;
     use lib\service as Service;
     
     Service\AuthService::checkAuth();
@@ -40,8 +43,11 @@
 <!--      </div>-->
       <div class="flex flex-col gap-4 w-full">
         <?php
-            $products = Service\ProductService::getAllProducts();
-            foreach ($products as $product) {
+            $product = new Product();
+            $query = new Query($product);
+            $products = $query->get();
+            
+            foreach ($products->arr() as $product) {
                 render_inventory_item($product);
             }
         ?>

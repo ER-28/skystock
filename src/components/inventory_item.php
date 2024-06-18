@@ -23,9 +23,9 @@
             <div class="flex flex-row justify-between items-center bg-slate-900 p-4 rounded-lg w-full">
                 <div class="flex flex-row gap-4 justify-around w-full items-center">
                     <p class="text-white text-xl font-bold">'.$product->getData()['name'].'</p>
-                    <p class="text-white text-md">Stock: '.$product->getData()['stock'].'</p>
-                    <p class="text-white">Price: $'.$product->getData()['price'].'</p>
-                    ' .($category ? '<p class="text-white">Category: '.$category->getData()['name'].'</p>' : '').'
+                    <p class="text-white text-md">Stock: <span class="font-bold">'.$product->getData()['stock'].'</span></p>
+                    <p class="text-white">Price: <span class="font-bold">'.$product->getData()['price'].'$</span></p>
+                    ' .($category ? '<p class="text-white">Category: <span class="font-bold">'.$category->getData()['name'].'</span></p>' : '').'
                 </div>
                 <div class="flex flex-row gap-4">
                     <a href="/forms/edit-product.php?id='.$product->getData()['id'].'">

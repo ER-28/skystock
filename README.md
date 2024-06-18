@@ -22,3 +22,18 @@ Developper une application de gestion de stock avec PHP MySQL et le pattern MVC.
 - utilisation de MySQL (ecriture de requetes SQL)
 - PDO et requetes preparees
 - Utilisation du pattern MVC
+
+# Features +
+
+- stock bas
+- top vente
+- produit plus vendu
+- chiffre affaire
+- total prix marchandise
+
+
+alter table product
+    add constraint product_categories_id_fk
+        foreign key (category_id) references categories (id)
+            on update cascade on delete cascade;
+
