@@ -19,12 +19,12 @@
                     <p class="text-white text-xl font-bold">Nom: '.$category->getData()['name'].'</p>
                 </div>
                 <div class="flex flex-row gap-4">
-                    <a href="/edit_product.php?id='.$category->getData()['id'].'">
+                    <a href="/edit_category.php?id='.$category->getData()['id'].'">
                         <button class="bg-sky-800 hover:bg-sky-700 text-white font-bold py-2 rounded focus:outline-none focus:shadow-outline px-4" type="button">
                             Edit
                         </button>
                     </a>
-                    <a href="/forms/delete_product.php?id='.$category->getData()['id'].'">
+                    <a href="/forms/delete_category.php?id='.$category->getData()['id'].'">
                         <button class="bg-red-800 hover:bg-red-700 text-white font-bold py-2 rounded focus:outline-none focus:shadow-outline px-4" type="button">
                             Delete
                         </button>

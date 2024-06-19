@@ -68,6 +68,10 @@
             $categories = $query
                 ->get()->arr();
             
+            if (empty($categories)) {
+                echo '<p class="text-white text-center">Aucune catégorie n\'a été trouvée</p>';
+            }
+            
             foreach ($categories as $category) {
                 render_category_list($category);
             }
@@ -79,6 +83,10 @@
             $users = $query
                 ->get()
                 ->arr();
+            
+            if (empty($users)) {
+                echo '<p class="text-white text-center">Aucun utilisateur n\'a été trouvé</p>';
+            }
             
             foreach ($users as $user) {
                 render_users_list($user);

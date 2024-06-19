@@ -22,12 +22,12 @@
                     <p class="text-white">Role: <span class="font-bold">'.$role.'</span></p>
                 </div>
                 <div class="flex flex-row gap-4">
-                    <a href="/edit_product.php?id='.$user->getData()['id'].'">
+                    <a href="/edit_user.php?id='.$user->getData()['id'].'">
                         <button class="bg-sky-800 hover:bg-sky-700 text-white font-bold py-2 rounded focus:outline-none focus:shadow-outline px-4" type="button">
                             Edit
                         </button>
                     </a>
-                    <a href="/forms/delete_product.php?id='.$user->getData()['id'].'">
+                    <a href="/forms/delete_user.php?id='.$user->getData()['id'].'">
                         <button class="bg-red-800 hover:bg-red-700 text-white font-bold py-2 rounded focus:outline-none focus:shadow-outline px-4" type="button">
                             Delete
                         </button>

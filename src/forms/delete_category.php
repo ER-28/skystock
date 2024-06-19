@@ -3,9 +3,11 @@
     
     require_once "../lib/orm/Query.php";
     require_once "../db/models/Categories.php";
+    require_once "../db/models/Product.php";
     require_once "../db/models/Users.php";
     
     use db\models\Categories;
+    use db\models\Product;
     use db\models\Users;
     use JetBrains\PhpStorm\NoReturn;
     use lib\orm\Query;
@@ -27,30 +29,42 @@
     }
     
     if (
-        !isset($_POST['name'])
+        !isset($_GET['id'])
     ) {
         redirect_to_page('empty fields');
     }
     
-    $name = $_POST['name'];
+    $id = $_GET['id'];
     
-    if (empty($name)) {
+    if (empty($id)) {
         redirect_to_page('empty fields');
     }
     
-    if (!is_string($name)) {
+    if (!is_numeric($id)) {
         redirect_to_page('name is not a string');
     }
     
-    if (strlen($name) < 3) {
-        redirect_to_page('name is too short');
+    $query = new Query(new Categories());
+    $category = $query
+        ->where('id', $id)
+        ->get()
+        ->first();
+    
+    if ($category === null) {
+        redirect_to_page('category not found');
     }
     
-    $category = new Categories();
-    $category->setData([
-        'name' => $name,
-    ]);
-    $category->save();
+    $productQuery = new Query(new Product());
+    $products = $productQuery
+        ->where('category_id', $id)
+        ->get()
+        ->arr();
+    
+    foreach ($products as $product) {
+        $product->delete();
+    }
+    
+    $category->delete();
     
     header('Location: /admin.php');
     
