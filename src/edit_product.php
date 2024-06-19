@@ -69,8 +69,9 @@
                         <?php
                             foreach ($categories_array as $category) {
                                 $selected = $category->getData()['id'] == $product->getData()['category_id'] ? 'selected' : '';
+                                $category_id = $category->getData()['id'];
                               
-                                echo "<option value='1' {$selected}>".$category->getData()['name']."</option>";
+                                echo "<option value='{$category_id}' {$selected}>".$category->getData()['name']."</option>";
                             }
                         ?>
                     </select>

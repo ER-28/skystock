@@ -6,6 +6,7 @@
   require_once 'components/query_list.php';
   require_once 'lib/service/AuthService.php';
     require_once 'components/error_toast.php';
+    require_once 'components/critical_product_list.php';
     render_error_toast();
   use lib\service as Service;
 
@@ -26,10 +27,11 @@
       render_header();
     ?>
 
-    <div class="container mx-auto my-8"
-    <?php
-        render_query_list();
-    ?>
+    <div class="container mx-auto my-8">
+      <?php
+          render_query_list();
+          critical_product_list();
+      ?>
     </div>
 
   </body>
