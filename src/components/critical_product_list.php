@@ -21,18 +21,26 @@
             ->get()
             ->arr();
         
+        if (count($products) === 0) {
+            return;
+        }
+        
         echo '
-            <div class="flex flex-row justify-between items-center bg-slate-900 p-4 rounded-lg mt-8">
-                <div class="flex flex-row gap-4 justify-around w-full items-center">
-                    <p class="text-white text-xl font-bold">Produit bientot en rupture</p>
+            <div class="flex flex-col rounded border border-slate-700 ">
+                <div class="flex flex-row justify-between items-center bg-slate-900 p-4 rounded-lg">
+                    <div class="flex flex-row gap-4 justify-around w-full items-center">
+                        <p class="text-white text-xl font-bold">Produit bientot en rupture</p>
+                    </div>
                 </div>
-            </div>
         ';
         
-        echo count($products) === 0 ? '<p class="text-white text-xl font-bold mt-4">No critical products</p>' : '';
         
         foreach ($products as $product) {
             render_inventory_item($product);
         }
+        
+        echo '
+            </div>
+        ';
         
     }
