@@ -1,8 +1,15 @@
 <?php
-    require_once 'components/head.php';
     session_start();
+    
+    if (!isset($_GET['token'])) {
+//        header('Location: /login.php');
+        exit();
+    }
+    require_once 'components/head.php';
     require_once 'components/error_toast.php';
     render_error_toast();
+    
+    $token = $_GET['token'];
 ?>
 
 <!doctype html>
@@ -15,7 +22,7 @@
 <body>
 <div class="flex flex-row justify-center items-center h-screen w-full bg-slate-950">
     <div class="container max-w-xl bg-slate-800 p-8 text-gray-200 rounded border border-blue-300">
-        <form action="forms/reset_password.php" method="post" class="w-full flex flex-col gap-5">
+        <form action="forms/reset_password.php?token=<?php echo $token?>" method="post" class="w-full flex flex-col gap-5">
             <p class="font-bold text-xl">Mot de passe oublié</p>
             <div class="mb-4">
                 <label for="password" class="block text-sm font-bold mb-2">Nouveau mot de passe</label>
