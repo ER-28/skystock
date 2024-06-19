@@ -29,7 +29,7 @@
         $total_stock = 0;
         
         foreach ($products as $product) {
-            $total_price += $product->getData()['price'];
+            $total_price += $product->getData()['price'] * $product->getData()['stock'];
             $total_stock += $product->getData()['stock'];
         }
         
