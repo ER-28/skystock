@@ -74,6 +74,12 @@ namespace lib\service {
             $_SESSION['user'] = $user->data['id'];
             header('Location: /');
         }
+        
+        public static function logout(): void
+        {
+            session_destroy();
+            header('Location: /login.php');
+        }
 
     }
 

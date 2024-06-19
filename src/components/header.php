@@ -52,7 +52,7 @@
                     </a>
                     $admin_panel
                 </div>
-                <a>
+                <a href='/logout.php'>
                     <div class='flex flex-column justify-center content-center w-10 h-10 p-1 text-center rounded-full ring-2 ring-gray-300 dark:ring-gray-500 bg-".$color."-".$variant."'>
                         <p class='text-white text-xl'>".$user->getData()['username'][0]."</p>
                     </div>

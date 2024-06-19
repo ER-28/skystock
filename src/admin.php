@@ -9,6 +9,8 @@
   require_once 'lib/orm/Query.php';
   require_once 'db/models/Users.php';
   require_once 'db/models/Categories.php';
+    require_once 'components/error_toast.php';
+    render_error_toast();
     
     use db\models\Categories;
     use lib\orm\Query;

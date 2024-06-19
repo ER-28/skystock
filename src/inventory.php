@@ -7,6 +7,8 @@
     require_once 'lib/service/AuthService.php';
     require_once 'db/models/Product.php';
     require_once 'db/models/Categories.php';
+    require_once 'components/error_toast.php';
+    render_error_toast();
     
     use db\models\Categories;
     use db\models\Product;

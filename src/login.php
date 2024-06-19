@@ -1,6 +1,8 @@
 <?php
-require_once 'components/head.php';
-session_start();
+    session_start();
+    require_once 'components/head.php';
+    require_once 'components/error_toast.php';
+    render_error_toast();
 ?>
 
 <!doctype html>

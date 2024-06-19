@@ -18,6 +18,13 @@
         exit();
     }
     
+    $queryAllUsers = new Query(new Users());
+    $allUsers = $queryAllUsers->get();
+    
+    if (count($allUsers) <= 1) {
+        redirect_to_page('only one user');
+    }
+    
     $queryUser = new Query(new Users());
     $user = $queryUser
         ->where('id', $_SESSION['user'])
@@ -44,27 +51,17 @@
         redirect_to_page('invalid fields');
     }
     
-    $query = new Query(new Categories());
-    $category = $query
+    $query = new Query(new Users());
+    $user = $query
         ->where('id', $id)
         ->get()
         ->first();
     
-    if ($category === null) {
-        redirect_to_page('category not found');
+    if ($user === null) {
+        redirect_to_page('user not found');
     }
     
-    $productQuery = new Query(new Product());
-    $products = $productQuery
-        ->where('category_id', $id)
-        ->get()
-        ->arr();
-    
-    foreach ($products as $product) {
-        $product->delete();
-    }
-    
-    $category->delete();
+    $user->delete();
     
     header('Location: /admin.php');
     
