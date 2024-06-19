@@ -26,18 +26,24 @@
                 
                 $sql = "INSERT INTO requests (query) VALUES ('$safeQuery')";
                 $db->query($sql);
-                
             }
             
             static function get(): array {
                 $db = new \mysqli('db', 'isitech', 'isitech', 'isitech');
-                $sql = "SELECT query FROM requests";
+                $sql = "SELECT query FROM requests ORDER BY id DESC";
                 $result = $db->query($sql);
                 $requests = [];
                 while ($row = $result->fetch_assoc()) {
                     $requests[] = $row;
                 }
                 return $requests;
+            }
+            
+            public static function drop()
+            {
+                $db = new \mysqli('db', 'isitech', 'isitech', 'isitech');
+                $sql = "DROP TABLE requests";
+                $db->query($sql);
             }
         }
     }

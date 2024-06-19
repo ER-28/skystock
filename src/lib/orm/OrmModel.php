@@ -162,5 +162,12 @@ namespace lib\orm {
             SaveRequest::save($sql);
             $this->db->query($sql);
         }
+        
+        public function drop(): void
+        {
+            $sql = "DROP TABLE $this->table";
+            SaveRequest::save($sql);
+            $this->db->query($sql);
+        }
     }
 }
