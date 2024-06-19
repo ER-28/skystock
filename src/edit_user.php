@@ -43,7 +43,7 @@
     <body>
     <div class="flex flex-row justify-center items-center h-screen w-full bg-slate-950">
         <div class="container max-w-xl bg-slate-800 p-8 text-gray-200 rounded border border-blue-300">
-            <form action="forms/edit_product.php?id=<?php echo $user_id ?>" method="post" class="w-full flex flex-col gap-5">
+            <form action="forms/edit_user.php?id=<?php echo $user_id ?>" method="post" class="w-full flex flex-col gap-5">
                 <p class="font-bold text-xl">Modification d'un utilisateur</p>
                 <div class="mb-4">
                     <label for="username" class="block text-sm font-bold mb-2">Nom</label>

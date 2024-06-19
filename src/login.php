@@ -18,7 +18,7 @@
           <form action="forms/login.php" method="post" class="w-full flex flex-col gap-5">
             <p class="font-bold text-xl">Login</p>
             <div class="mb-4">
-              <label for="username" class="block text-sm font-bold mb-2">Username</label>
+              <label for="username" class="block text-sm font-bold mb-2">Username or Email</label>
               <input
                 type="text" name="username" id="username"
                 class="shadow appearance-none border border-blue-300 rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline bg-slate-800"
