@@ -6,9 +6,6 @@
         
         class SaveRequest
         {
-            /**
-             * @throws Exception
-             */
             static function save(string $query): void
             {
                 // call api to save in files
