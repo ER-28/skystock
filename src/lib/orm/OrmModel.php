@@ -25,7 +25,6 @@ namespace lib\orm {
             }
 
             $sql = "SHOW TABLES LIKE '$this->table'";
-            SaveRequest::save($sql);
             $result = $this->db->query($sql);
             if ($result->num_rows === 0) {
                 $this->createTable();

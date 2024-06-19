@@ -44,8 +44,8 @@
       render_header();
     ?>
 
-    <div class="container mx-auto">
-      <form action="/forms/add_category.php" method="post" class="flex flex-row mt-8">
+    <div class="container mx-auto py-8">
+      <form action="/forms/add_category.php" method="post" class="flex flex-row">
         <div class="w-full bg-slate-800 p-8 text-gray-200 rounded border border-blue-300">
           <p class="font-bold text-xl">Ajouter une catégorie</p>
           <div class="mb-4">
