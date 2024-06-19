@@ -49,9 +49,9 @@
         <div class="w-full bg-slate-800 p-8 text-gray-200 rounded border border-blue-300">
           <p class="font-bold text-xl">Ajouter une catégorie</p>
           <div class="mb-4">
-            <label for="name" class="block text-sm font-bold mb-2">Nom</label>
+            <label for="name" class="block text-sm font-bold mb-2"></label>
             <input
-              type="text" name="name" id="name"
+              type="text" name="name" id="name" placeholder="Nom de la catégorie"
               class="shadow appearance-none border border-blue-300 rounded w-full py-2 px-3 text-white leading-tight focus:outline-none focus:shadow-outline bg-slate-800"
             >
           </div>
