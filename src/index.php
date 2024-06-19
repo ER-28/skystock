@@ -3,6 +3,7 @@
 
   require_once 'components/head.php';
   require_once 'components/header.php';
+  require_once 'components/query_list.php';
   require_once 'lib/service/AuthService.php';
     require_once 'components/error_toast.php';
     render_error_toast();
@@ -24,6 +25,12 @@
     <?php
       render_header();
     ?>
+
+    <div class="container mx-auto my-8"
+    <?php
+        render_query_list();
+    ?>
+    </div>
 
   </body>
 </html>

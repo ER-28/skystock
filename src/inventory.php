@@ -67,10 +67,7 @@
             }
         ?>
     </div>
-    <div class="flex flex-row gap-6 h-screen mt-4 ">
-<!--      <div class="flex flex-row justify-between w-64 bg-slate-900 rounded-xl">-->
-<!--        <p>filter</p>-->
-<!--      </div>-->
+    <div class="flex flex-row gap-6 mt-4 ">
       <div class="flex flex-col gap-4 w-full">
         <?php
             if (count($products->arr()) === 0) {
@@ -81,6 +78,7 @@
                 render_inventory_item($product);
             }
         ?>
+      </div>
     </div>
 
 </body>

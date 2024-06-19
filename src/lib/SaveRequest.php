@@ -31,7 +31,7 @@
             
             static function get(): array {
                 $db = new \mysqli('db', 'isitech', 'isitech', 'isitech');
-                $sql = "SELECT * FROM requests";
+                $sql = "SELECT query FROM requests";
                 $result = $db->query($sql);
                 $requests = [];
                 while ($row = $result->fetch_assoc()) {
