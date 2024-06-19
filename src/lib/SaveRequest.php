@@ -16,7 +16,7 @@
                 try {
                     $db = new \mysqli('db', 'isitech', 'isitech', 'isitech');
                 } catch (Exception $e) {
-                    throw new Exception('Error creating a database connection ');
+                    return;
                 }
                 
                 $safeQuery = $db->real_escape_string($query);

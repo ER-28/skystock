@@ -34,7 +34,7 @@
         }
         
         echo '
-            <div class="flex flex-col bg-slate-800 p-8 text-gray-200 rounded border border-blue-300 ">
+            <div class="flex flex-col bg-slate-800 text-gray-200 rounded border border-blue-300 p-4">
                 <div class="flex flex-row justify-between items-center rounded-lg">
                     <div class="flex flex-row gap-4 justify-around w-full items-center">
                         <p class="text-white text-xl font-bold">KPI</p>
@@ -43,7 +43,7 @@
         ';
         
         echo '
-                <div class="flex flex-row justify-between items-center p-4">
+                <div class="flex flex-row justify-between items-center">
                     <div class="flex flex-row gap-4 justify-around w-full items-center">
                         <p class="text-white text-xl font-bold">User number: '.$user_number.'</p>
                         <p class="text-white text-xl font-bold">Category number: '.$category_number.'</p>
