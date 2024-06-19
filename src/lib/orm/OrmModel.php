@@ -129,7 +129,7 @@ namespace lib\orm {
         public function setData(mixed $data): void
         {
             foreach ($data as $key => $value) {
-                if ($value) {
+                if ($value !== null) {
                     $this->data[$key] = $this->db->real_escape_string($value);
                 }
             }

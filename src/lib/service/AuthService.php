@@ -47,10 +47,9 @@ namespace lib\service {
             $all_users = new Query(new Users());
             $all_users = $all_users->get();
             
+            $role = 0;
             if (count($all_users) === 0) {
                 $role = 1;
-            } else {
-                $role = 0;
             }
 
             $user = new Users();
