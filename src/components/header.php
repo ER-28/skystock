@@ -47,9 +47,6 @@
                     <a href='/inventory.php' class='text-white border-b py-3 px-6 hover:border-blue-500 transition-colors'>
                         Inventory
                     </a>
-                    <a href='/sales.php' class='text-white border-b py-3 px-6 hover:border-blue-500 transition-colors'>
-                        Sales
-                    </a>
                     $admin_panel
                 </div>
                 <a href='/logout.php'>

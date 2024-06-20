@@ -18,7 +18,6 @@
                 $this->columns = [
                     new Column('id', 'int', 11, false, true, true),
                     new Column('name', 'varchar', 255, false, false, false),
-                    new Column('created_at', 'datetime', 0, true, false, false),
                 ];
                 
                 parent::__construct();
