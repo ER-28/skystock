@@ -1,5 +1,7 @@
 # SkyStock
 
+Isitech PHP project
+
 ## Description
 
 SkyStock is a web application in php that allow users to manage their stock.
