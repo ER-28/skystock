@@ -108,9 +108,13 @@ The password are hashed with the PHP function `password_hash` and are verified w
 ## Recover password
 
 When a user forget his password, he can click on the link "Forgot password" on the login page.
+
 He will be redirected to the recover password page where he can enter his username.
+
 If the username exists, a mail will be sent to the user with a link to reset his password.
+
 The link is valid for 1 use.
+
 When the user click on the link, he will be redirected to the reset password page where he can enter his new password.
 
 `The mail is available in mailcatcher on localhost:1080`
