@@ -172,11 +172,23 @@ $this->columns = [
 To make a request use the `Query` class.
 
 ```php
-  $queryUser = new Query(new Users());
-  $user = $queryUser
+$queryUser = new Query(new Users());
+$user = $queryUser
     ->where('id', $_SESSION['user'])
     ->get()
     ->first();
+
+$query = new Query(new \db\models\Product());
+$products = $query
+    ->where('stock', 10, '<')
+    ->get()
+    ->arr();
+
+$query = new Query($this);
+$result = $query
+    ->where('email', $email)
+    ->orWhere('username', $email)
+    ->get();
 ```
 
 #### get will return a SearchResult object with the result of the request
